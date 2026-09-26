@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Anrufen · Telefoncaller{% endblock %}
+{% block meta %}<meta name="csrf-token" content="{{ csrf_token }}">{% endblock %}
+{% block content %}
+<section class="call-layout" aria-labelledby="call-title">
+  <header class="app-header">
+    <div class="mini-brand"><span class="brand-dot"></span> Telefoncaller</div>
+    <a class="text-link" href="/logout" id="logout-link">Abmelden</a>
+  </header>
+
+  <div class="call-card">
+    <div class="phone-orbit" aria-hidden="true">
+      <div class="phone-icon">
+        <svg viewBox="0 0 24 24" role="img"><path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.08.36 2.24.54 3.42.54a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.54 21 3 13.46 3 4.18a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1c0 1.18.18 2.34.54 3.42a1 1 0 0 1-.24 1z"/></svg>
+      </div>
+    </div>
+    <p class="eyebrow">Bereit, {{ user.name }}?</p>
+    <h1 id="call-title">Wir rufen Sie an.</h1>
+    <p class="call-copy">Ein Klick genügt. Der Anruf geht an die bei der Registrierung hinterlegte Nummer.</p>
+    <button id="call-button" class="call-button" type="button" {% if not calls_enabled %}data-disabled="true"{% endif %}>
+      <span class="button-label">Jetzt anrufen</span>
+      <span class="button-spinner" aria-hidden="true"></span>
+    </button>
+    <p id="call-status" class="call-status" role="status" aria-live="polite">
+      {% if not calls_enabled %}Testmodus: Anrufe sind sicher deaktiviert.{% endif %}
+    </p>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='/app.js') }}" defer></script>{% endblock %}

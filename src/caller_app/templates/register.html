@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Registrieren · Telefoncaller{% endblock %}
+{% block content %}
+<section class="auth-layout" aria-labelledby="register-title">
+  <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="auth-heading">
+    <p class="eyebrow">Telefonischer Kontakt</p>
+    <h1 id="register-title">Konto erstellen</h1>
+    <p>Hinterlegen Sie Ihre Kontaktdaten. Ihre Telefonnummer wird vor dem Speichern geprüft.</p>
+  </div>
+
+  {% if errors %}
+  <div class="alert alert-error" role="alert">
+    <strong>Bitte prüfen Sie Ihre Angaben:</strong>
+    <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <form method="post" action="/register" class="form-card">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Ihr Name
+      <input name="name" value="{{ values.get('name', '') }}" autocomplete="name" maxlength="100" required autofocus>
+    </label>
+    <label>E-Mail-Adresse
+      <input type="email" name="email" value="{{ values.get('email', '') }}" autocomplete="email" maxlength="254" required>
+    </label>
+    <label>Telefonnummer
+      <input type="tel" name="phone" value="{{ values.get('phone', '') }}" autocomplete="tel" inputmode="tel" placeholder="+49 151 12345678" required>
+      <small>International oder als deutsche Mobilnummer.</small>
+    </label>
+    <label>Passwort
+      <input type="password" name="password" autocomplete="new-password" minlength="12" maxlength="128" required>
+      <small>Mindestens 12 Zeichen.</small>
+    </label>
+    <button type="submit" class="primary-button">Registrieren</button>
+  </form>
+  <p class="switch-link">Bereits registriert? <a href="/login">Anmelden</a></p>
+</section>
+{% endblock %}
